@@ -36,6 +36,13 @@
       };
     };
     vscode-server.enable = true;
+    openssh = {
+      enable = true;
+      extraConfig =
+        ''
+          AllowAgentForwarding yes
+        '';
+    };
   };
 
   # Set your time zone.
@@ -99,9 +106,6 @@
   # };
 
   # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
