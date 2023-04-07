@@ -9,7 +9,6 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       <home-manager/nixos>
-      (fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master")
     ];
 
   # Use the GRUB 2 boot loader.
@@ -36,7 +35,6 @@
         domain = true;
       };
     };
-    vscode-server.enable = true;
     openssh = {
       enable = true;
       extraConfig =
@@ -127,7 +125,10 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "22.11"; # Did you read the comment?
 
-  programs.ssh.startAgent = true;
+  programs = {
+    nix-ld.enable = true;
+    ssh.startAgent = true;
+  };
 
   nix.settings = {
       trusted-public-keys = [
@@ -145,4 +146,12 @@
   };
 
   virtualisation.docker.enable = true;
+
+  environment.variables = {
+    # https://github.com/Mic92/nix-ld
+    NIX_LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [
+      pkgs.stdenv.cc.cc
+    ];
+    NIX_LD = pkgs.lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker";
+  };
 }
