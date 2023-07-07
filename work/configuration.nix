@@ -143,6 +143,10 @@
         "https://iohk.cachix.org"
         "https://herp-slum.cachix.org"
       ];
+      trusted-users = [
+        "root"
+        "kazuki"
+      ];
   };
 
   virtualisation.docker.enable = true;
