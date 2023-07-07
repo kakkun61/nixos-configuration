@@ -149,12 +149,4 @@
   };
 
   virtualisation.docker.enable = true;
-
-  environment.variables = {
-    # https://github.com/Mic92/nix-ld
-    NIX_LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [
-      pkgs.stdenv.cc.cc
-    ];
-    NIX_LD = pkgs.lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker";
-  };
 }
