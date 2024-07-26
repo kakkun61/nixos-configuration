@@ -14,7 +14,7 @@
   boot.loader.grub.device = "/dev/sdb";
   # /dev/sda は swap 用
 
-  networking.hostName = "herp-2";
+  networking.hostName = "herp";
 
   time.timeZone = "Asia/Tokyo";
   i18n.defaultLocale = "ja_JP.UTF-8";
