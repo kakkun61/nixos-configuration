@@ -3,10 +3,13 @@
   "version": "0.2",
   "language": "en",
   "words": [
+    "avahi",
     "kazuki",
     "nixos",
     "nixpkgs",
+    "nssmdns",
     "pkgs",
-    "usbip"
+    "usbip",
+    "virtualisation"
   ]
 }
