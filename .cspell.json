@@ -8,6 +8,7 @@
     "nixos",
     "nixpkgs",
     "nssmdns",
+    "Okamoto",
     "pkgs",
     "usbip",
     "virtualisation"
