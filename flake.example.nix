@@ -5,15 +5,23 @@
       url = "github:kakkun61/nixos-configuration";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-darwin = {
+      url = "github:nix-darwin/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { nixpkgs, nixos-configuration, ... }:
-    let
-      system = "x86_64-linux";
-    in {
+  outputs =
+    {
+      nixpkgs,
+      nixos-configuration,
+      nix-darwin,
+      ...
+    }:
+    {
       nixosConfigurations = {
         default = nixpkgs.lib.nixosSystem {
-          inherit system;
+          system = "x86_64-linux";
           modules = [
             # 元となる設定を選択する
             nixos-configuration.nixosModules.default
@@ -21,6 +29,16 @@
             ./configuration.nix
           ];
         };
+      };
+      darwinConfigurations = {
+        default = nix-darwin.lib.darwinSystem {
+          modules = [
+            # 元となる設定を選択する
+            nixos-configuration.darwinModules.default
+            # 共通でない設定は configuration.nix に書く
+            ./configuration.nix
+          ];
+        };
+      };
     };
-  };
 }

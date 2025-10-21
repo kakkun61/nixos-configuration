@@ -1,8 +1,14 @@
 {
+  description = "My Nix OS configurations";
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-darwin = {
+      url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-parts.url = "github:hercules-ci/flake-parts";
@@ -18,7 +24,6 @@
     }:
 
     let
-      system = "x86_64-linux";
       commonModule =
         { pkgs, ... }:
         {
@@ -56,10 +61,46 @@
             };
           };
         };
+      commonDarwinModule =
+        args:
+        let
+          common = commonModule args;
+        in
+        {
+          config = {
+            nix = {
+              settings = {
+                experimental-features = common.config.nix.settings.experimental-features;
+                trusted-users = [
+                  "root"
+                  "@admin"
+                ];
+              };
+            };
+
+            time = common.config.time;
+
+            users.users.kazuki = {
+              gid = "admin";
+              createHome = true;
+              home = "/Users/kazuki";
+              openssh.authorizedKeys.keys = common.config.users.users.kazuki.openssh.authorizedKeys.keys;
+              packages = common.config.users.users.kazuki.packages;
+              shell = common.config.users.defaultUserShell;
+            };
+
+            security.pam.services.sudo_local.touchIdAuth = true;
+
+            nixpkgs.hostPlatform = "aarch64-darwin";
+          };
+        };
     in
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [ ];
-      systems = [ system ];
+      systems = [
+        "x86_64-linux"
+        "aarch64-darwin"
+      ];
       perSystem =
         {
           config,
@@ -75,46 +116,68 @@
       flake = {
         nixosModules = {
           common = commonModule;
-          wsl = { ... }: {
-            imports = [ nixos-wsl.nixosModules.default commonModule ];
-            config = {
-              wsl.enable = true;
-              wsl.defaultUser = "kazuki";
-              wsl.interop.includePath = false;
-              wsl.usbip.enable = true;
-              wsl.wslConf.interop.appendWindowsPath = false;
-              wsl.wslConf.user.default = "kazuki";
+          wsl =
+            { ... }:
+            {
+              imports = [
+                nixos-wsl.nixosModules.default
+                commonModule
+              ];
+              config = {
+                wsl.enable = true;
+                wsl.defaultUser = "kazuki";
+                wsl.interop.includePath = false;
+                wsl.usbip.enable = true;
+                wsl.wslConf.interop.appendWindowsPath = false;
+                wsl.wslConf.user.default = "kazuki";
+              };
             };
-          };
-          work = { ... }: {
-            config = {
-              boot.loader.grub.enable = true;
-              boot.loader.grub.device = "/dev/sdb";
-              # /dev/sda は swap 用
+          work =
+            { ... }:
+            {
+              imports = [ commonModule ];
+              config = {
+                boot.loader.grub.enable = true;
+                boot.loader.grub.device = "/dev/sdb";
+                # /dev/sda は swap 用
 
-              networking.hostName = "herp";
+                networking.hostName = "herp";
 
-              services = {
-                avahi = {
-                  enable = true;
-                  nssmdns4 = true;
-                  publish = {
+                services = {
+                  avahi = {
                     enable = true;
-                    addresses = true;
-                    domain = true;
+                    nssmdns4 = true;
+                    publish = {
+                      enable = true;
+                      addresses = true;
+                      domain = true;
+                    };
+                  };
+                  openssh = {
+                    enable = true;
+                    extraConfig = ''
+                      AllowAgentForwarding yes
+                    '';
                   };
                 };
-                openssh = {
-                  enable = true;
-                  extraConfig = ''
-                    AllowAgentForwarding yes
-                  '';
-                };
-              };
 
-              virtualisation.docker.enable = true;
+                virtualisation.docker.enable = true;
+              };
             };
-          };
+        };
+
+        darwinModules = {
+          common = commonDarwinModule;
+          work =
+            args@{ pkgs, ... }:
+            {
+              imports = [ (commonDarwinModule args) ];
+              config = {
+                nix.package = pkgs.nixVersions.nix_2_26;
+                system.configurationRevision = self.rev or self.dirtyRev or null;
+                system.stateVersion = 5;
+              };
+            };
         };
       };
     };
