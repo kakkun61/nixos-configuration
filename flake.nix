@@ -173,7 +173,6 @@
             {
               imports = [ (commonDarwinModule args) ];
               config = {
-                nix.package = pkgs.nixVersions.nix_2_26;
                 system.configurationRevision = self.rev or self.dirtyRev or null;
                 system.stateVersion = 5;
               };
