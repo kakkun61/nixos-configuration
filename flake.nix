@@ -23,6 +23,7 @@
       self,
       nixpkgs,
       nixos-wsl,
+      nix-darwin,
       flake-parts,
       treefmt-nix,
       ...
@@ -60,6 +61,34 @@
         darwinModules = {
           common = import ./module/common.darwin.nix;
           work = import ./module/work.darwin.nix;
+        };
+
+        nixosConfigurations = {
+          gmk = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = [
+              self.nixosModules.common
+              ./configuration/gmk.nix
+            ];
+          };
+          surface-nixos = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = [
+              self.nixosModules.wsl
+              ./configuration/surface-wsl.nix
+            ];
+          };
+        };
+
+        darwinConfigurations = {
+          default = nix-darwin.lib.darwinSystem {
+            modules = [
+              # 元となる設定を選択する
+              self.darwinModules.common
+              # 共通でない設定は configuration.nix に書く
+              # ./configuration.nix
+            ];
+          };
         };
       };
     };
