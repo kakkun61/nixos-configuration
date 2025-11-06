@@ -71,7 +71,7 @@
               ./configuration/gmk.nix
             ];
           };
-          surface-nixos = nixpkgs.lib.nixosSystem {
+          surface-wsl = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = [
               self.nixosModules.wsl

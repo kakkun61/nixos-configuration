@@ -11,8 +11,10 @@
     "nixos",
     "nixpkgs",
     "nssmdns",
+    "numtide",
     "okamoto",
     "pkgs",
+    "treefmt",
     "usbip",
     "virtualisation"
   ]
