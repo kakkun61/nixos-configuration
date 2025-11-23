@@ -28,6 +28,10 @@
           AllowAgentForwarding yes
         '';
       };
+      tailscale = {
+        enable = true;
+        authKeyFile = "/home/kazuki/.config/tailscale/auth.key";
+      };
     };
 
     system.stateVersion = "25.05";
