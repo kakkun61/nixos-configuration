@@ -67,8 +67,10 @@
           gmk = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = [
+              ./hardware-configuration.nix
               self.nixosModules.common
               ./configuration/gmk.nix
+              { system.stateVersion = "25.05"; }
             ];
           };
           surface-wsl = nixpkgs.lib.nixosSystem {
@@ -76,6 +78,16 @@
             modules = [
               self.nixosModules.wsl
               ./configuration/surface-wsl.nix
+              { system.stateVersion = "25.05"; }
+            ];
+          };
+          utm = nixpkgs.lib.nixosSystem {
+            system = "aarch64-linux";
+            modules = [
+              ./hardware-configuration.nix
+              self.nixosModules.common
+              ./configuration/utm.nix
+              { system.stateVersion = "25.11"; }
             ];
           };
         };
