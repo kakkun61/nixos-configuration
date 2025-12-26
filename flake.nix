@@ -50,6 +50,7 @@
           common = import ./module/common.nix;
           wsl = import ./module/wsl.nix { inherit nixos-wsl; };
           work = import ./module/work.nix;
+          docker = import ./module/docker.nix;
         };
 
         darwinModules = {
@@ -72,6 +73,7 @@
             modules = [
               self.nixosModules.common
               self.nixosModules.wsl
+              self.nixosModules.docker
               ./configuration/surface-wsl.nix
               { system.stateVersion = "25.05"; }
             ];
