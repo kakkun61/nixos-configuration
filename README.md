@@ -60,4 +60,4 @@ $ git push
 # nixos-rebuild switch --flake .
 ```
 
-[home-manager の設定はこっち](https://github.com/kakkun61/dot_files/tree/master/home-manager) / [Home-manager configuration is here](https://github.com/kakkun61/dot_files/tree/master/home-manager)
+[home-manager の設定はこっち](https://github.com/kakkun61/dot_files) / [Home-manager configuration is here](https://github.com/kakkun61/dot_files)
