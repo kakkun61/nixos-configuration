@@ -1,39 +1,29 @@
-{ ... }:
-
 {
-  imports = [
-    ../hardware-configuration.nix
-  ];
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
-  config = {
-    boot.loader.systemd-boot.enable = true;
-    boot.loader.efi.canTouchEfiVariables = true;
+  networking.hostName = "gmk";
+  networking.wireless.enable = true;
 
-    networking.hostName = "gmk";
-    networking.wireless.enable = true;
-
-    services = {
-      avahi = {
+  services = {
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+      publish = {
         enable = true;
-        nssmdns4 = true;
-        publish = {
-          enable = true;
-          addresses = true;
-          domain = true;
-        };
-      };
-      openssh = {
-        enable = true;
-        extraConfig = ''
-          AllowAgentForwarding yes
-        '';
-      };
-      tailscale = {
-        enable = true;
-        authKeyFile = "/home/kazuki/.config/tailscale/auth.key";
+        addresses = true;
+        domain = true;
       };
     };
-
-    system.stateVersion = "25.05";
+    openssh = {
+      enable = true;
+      extraConfig = ''
+        AllowAgentForwarding yes
+      '';
+    };
+    tailscale = {
+      enable = true;
+      authKeyFile = "/home/kazuki/.config/tailscale/auth.key";
+    };
   };
 }
