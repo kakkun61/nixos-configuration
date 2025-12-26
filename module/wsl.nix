@@ -1,6 +1,7 @@
+{ nixos-wsl }:
 { ... }:
 {
-  imports = [ ./common.nix ];
+  imports = [ nixos-wsl.nixosModules.default ];
   config = {
     wsl = {
       enable = true;

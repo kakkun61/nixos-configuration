@@ -48,14 +48,7 @@
       flake = {
         nixosModules = {
           common = import ./module/common.nix;
-          wsl =
-            { ... }:
-            {
-              imports = [
-                nixos-wsl.nixosModules.default
-                (import ./module/wsl.nix)
-              ];
-            };
+          wsl = import ./module/wsl.nix { inherit nixos-wsl; };
           work = import ./module/work.nix;
         };
 
@@ -77,6 +70,7 @@
           surface-wsl = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = [
+              self.nixosModules.common
               self.nixosModules.wsl
               ./configuration/surface-wsl.nix
               { system.stateVersion = "25.05"; }
