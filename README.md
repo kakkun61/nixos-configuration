@@ -55,7 +55,9 @@ $ git push
 # cd /etc
 # gh repo clone kakkun61/nixos-configuration nixos
 # cp --force /etc/nixos{.back,}/hardware-configuration.nix
+# cd /etc/nixos
 # nix --extra-experimental-features 'nix-command flakes' flake update
+# nixos-rebuild switch --flake .
 ```
 
 [home-manager の設定はこっち](https://github.com/kakkun61/dot_files/tree/master/home-manager) / [Home-manager configuration is here](https://github.com/kakkun61/dot_files/tree/master/home-manager)
