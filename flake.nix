@@ -49,13 +49,14 @@
         nixosModules = {
           common = import ./module/common.nix;
           wsl = import ./module/wsl.nix { inherit nixos-wsl; };
-          work = import ./module/work.nix;
           docker = import ./module/docker.nix;
+          mdns = import ./module/mdns.nix;
+          sshd = import ./module/sshd.nix;
+          tailscale = import ./module/tailscale.nix;
         };
 
         darwinModules = {
           common = import ./module/common.darwin.nix;
-          work = import ./module/work.darwin.nix;
         };
 
         nixosConfigurations = {
@@ -64,6 +65,9 @@
             modules = [
               ./hardware-configuration.nix
               self.nixosModules.common
+              self.nixosModules.mdns
+              self.nixosModules.sshd
+              self.nixosModules.tailscale
               ./configuration/gmk.nix
               { system.stateVersion = "25.05"; }
             ];
@@ -74,6 +78,7 @@
               self.nixosModules.common
               self.nixosModules.wsl
               self.nixosModules.docker
+              self.nixosModules.tailscale
               ./configuration/surface-wsl.nix
               { system.stateVersion = "25.05"; }
             ];
@@ -83,19 +88,9 @@
             modules = [
               ./hardware-configuration.nix
               self.nixosModules.common
+              self.nixosModules.sshd
               ./configuration/utm.nix
               { system.stateVersion = "25.11"; }
-            ];
-          };
-        };
-
-        darwinConfigurations = {
-          default = nix-darwin.lib.darwinSystem {
-            modules = [
-              # 元となる設定を選択する
-              self.darwinModules.common
-              # 共通でない設定は configuration.nix に書く
-              # ./configuration.nix
             ];
           };
         };

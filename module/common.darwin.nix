@@ -20,13 +20,16 @@ in
       gid = "admin";
       createHome = true;
       home = "/Users/kazuki";
-      openssh.authorizedKeys.keys = common.config.users.users.kazuki.openssh.authorizedKeys.keys;
+      openssh = common.config.users.users.kazuki.openssh;
       packages = common.config.users.users.kazuki.packages;
       shell = common.config.users.defaultUserShell;
     };
 
     security.pam.services.sudo_local.touchIdAuth = true;
 
-    nixpkgs.hostPlatform = "aarch64-darwin";
+    nixpkgs = {
+      hostPlatform = "aarch64-darwin";
+      config.allowUnfree = true;
+    };
   };
 }

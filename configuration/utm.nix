@@ -4,11 +4,4 @@
 
   networking.hostName = "utm";
   networking.networkmanager.enable = true;
-
-  services.openssh = {
-    enable = true;
-    extraConfig = ''
-      AllowAgentForwarding yes
-    '';
-  };
 }
