@@ -4,4 +4,6 @@
 
   networking.hostName = "gmk";
   networking.wireless.enable = true;
+
+  services.k3s.enable = true;
 }
