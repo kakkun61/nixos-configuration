@@ -63,7 +63,7 @@
           gmk = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = [
-              ./hardware-configuration.nix
+              ./hardware-configuration/gmk.nix
               self.nixosModules.common
               self.nixosModules.mdns
               self.nixosModules.sshd
@@ -86,7 +86,7 @@
           utm = nixpkgs.lib.nixosSystem {
             system = "aarch64-linux";
             modules = [
-              ./hardware-configuration.nix
+              ./hardware-configuration/utm.nix
               self.nixosModules.common
               self.nixosModules.sshd
               ./configuration/utm.nix
