@@ -53,6 +53,7 @@
           mdns = import ./module/mdns.nix;
           sshd = import ./module/sshd.nix;
           tailscale = import ./module/tailscale.nix;
+          podman = import ./module/podman.nix;
         };
 
         darwinModules = {
