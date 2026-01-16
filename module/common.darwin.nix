@@ -1,17 +1,28 @@
-args:
+# ./common.nix で必要になる引数（ここでは pkgs）を明示する必要がある
+#
+# See https://flake.parts/module-arguments#how-module-function-arguments-work
+#
+# > The Nix module system determines which arguments to pass to a module
+# > function by using builtins.functionArgs. This means only the parameters you
+# > explicitly name in your function signature will be available.
+args@{ pkgs, ... }:
 let
   common = import ./common.nix args;
 in
 {
   config = {
-    nix = {
-      settings = {
-        experimental-features = common.config.nix.settings.experimental-features;
-        trusted-users = [
-          "root"
-          "@admin"
-        ];
-      };
+    nix.settings = {
+      # nixos では [ "nix-command" "flakes" ] でいけるのに、nix-darwin ではダメらしい
+      experimental-features = "nix-command flakes";
+      trusted-users = [
+        "root"
+        "@admin"
+      ];
+    };
+
+    nixpkgs = {
+      hostPlatform = "aarch64-darwin";
+      config.allowUnfree = true;
     };
 
     time = common.config.time;
@@ -26,10 +37,5 @@ in
     };
 
     security.pam.services.sudo_local.touchIdAuth = true;
-
-    nixpkgs = {
-      hostPlatform = "aarch64-darwin";
-      config.allowUnfree = true;
-    };
   };
 }
