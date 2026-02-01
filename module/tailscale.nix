@@ -1,3 +1,7 @@
+# Tailscale を有効にしてそのホストで Kubernetes（K3s）ホストを立てると
+# Kubernetes クラスターの中の Core DNS がホストの systemd-resolved を見に行くようになり
+# Tailnet の 100.100.100.100 を DNS サーバーとして使用してしまうため
+# 名前解決ができなくなるという問題がある
 {
   services = {
     tailscale = {

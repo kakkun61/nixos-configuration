@@ -4,9 +4,4 @@
 
   networking.hostName = "gmk";
   networking.wireless.enable = true;
-
-  services.k3s = {
-    enable = true;
-    tokenFile = "/root/.secret/k3s-token";
-  };
 }

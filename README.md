@@ -2,9 +2,10 @@
 
 ## 使い方 / Usage
 
-マシン名がまだ設定されていなかったら設定する。/ If the machine name is not set yet, set it.
+セットアップ対象のマシンのマシン名がまだ設定されていなかったら設定する。/ If the machine name of the target machine is not set yet, set it.
 
 ```nix
+# /etc/nixos/configuration.nix
 …
   networking.hostName = "my-machine-name";
 …
@@ -46,11 +47,18 @@ $ git commit -m "Add configuration for my-machine-name"
 $ git push
 ```
 
+セットアップ対象のマシンで秘密情報を取得する。/ Get secret information on the target machine.
+
+```console
+# gh auth login
+# cd /root
+# gh repo clone kakkun61/secret
+```
+
 セットアップ対象のマシンで設定を適用する。/ Apply the configuration on the target machine.
 
 ```console
 # nix-shell -p git gh
-# gh auth login
 # mv /etc/nixos{,.back}
 # cd /etc
 # gh repo clone kakkun61/nixos-configuration nixos

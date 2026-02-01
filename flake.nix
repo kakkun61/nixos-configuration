@@ -47,13 +47,16 @@
         };
       flake = {
         nixosModules = {
+          cloudflare-tunnel-home = import ./module/cloudflare-tunnel-home.nix;
           common = import ./module/common.nix;
-          wsl = import ./module/wsl.nix { inherit nixos-wsl; };
           docker = import ./module/docker.nix;
+          kubernetes = import ./module/kubernetes.nix;
           mdns = import ./module/mdns.nix;
+          podman = import ./module/podman.nix;
+          secret = import ./module/secret.nix;
           sshd = import ./module/sshd.nix;
           tailscale = import ./module/tailscale.nix;
-          podman = import ./module/podman.nix;
+          wsl = import ./module/wsl.nix { inherit nixos-wsl; };
         };
 
         darwinModules = {
@@ -68,7 +71,8 @@
               self.nixosModules.common
               self.nixosModules.mdns
               self.nixosModules.sshd
-              self.nixosModules.tailscale
+              self.nixosModules.kubernetes
+              self.nixosModules.cloudflare-tunnel-home
               ./configuration/gmk.nix
               { system.stateVersion = "25.05"; }
             ];
