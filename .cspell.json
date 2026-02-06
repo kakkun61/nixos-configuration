@@ -18,5 +18,8 @@
     "treefmt",
     "usbip",
     "virtualisation"
+  ],
+  "ignoreWords": [
+    "resolv"
   ]
 }

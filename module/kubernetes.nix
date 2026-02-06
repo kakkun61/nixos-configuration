@@ -5,6 +5,10 @@
   config = {
     services.k3s = {
       enable = true;
+      extraFlags = [
+        # Tailscale のネームサーバーを使わないようにするため
+        "--resolv-conf ${../asset/resolv.conf}"
+      ];
       tokenFile = "${secretPath}/k3s";
     };
 

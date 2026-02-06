@@ -2,6 +2,8 @@
 # Kubernetes クラスターの中の Core DNS がホストの systemd-resolved を見に行くようになり
 # Tailnet の 100.100.100.100 を DNS サーバーとして使用してしまうため
 # 名前解決ができなくなるという問題がある
+# 解決策として K3s で --resolv-conf オプションを指定して LAN のネームサーバーを指定する
+# ./kubernetes.nix を参照
 {
   services = {
     tailscale = {

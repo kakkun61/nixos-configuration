@@ -72,6 +72,7 @@
               self.nixosModules.mdns
               self.nixosModules.sshd
               self.nixosModules.kubernetes
+              self.nixosModules.tailscale
               self.nixosModules.cloudflare-tunnel-home
               ./configuration/gmk.nix
               { system.stateVersion = "25.05"; }
