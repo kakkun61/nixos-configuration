@@ -1,5 +1,9 @@
 # My Nix OS Configurations
 
+**Moved to [computing-resource-configuration].**
+
+[computing-resource-configuration]: https://github.com/kakkun61/computing-resource-configuration/tree/master/nixos
+
 ## 使い方 / Usage
 
 セットアップ対象のマシンのマシン名がまだ設定されていなかったら設定する。/ If the machine name of the target machine is not set yet, set it.
